@@ -1,0 +1,69 @@
+1BM23AI012
+SECTION 3A
+1)
+def is_balanced(s):
+    stack = []
+    i = {')': '(', '}': '{', ']': '['}
+
+    for char in s:
+        if char in i:
+            top_element = stack.pop() if stack else '#'
+            if i[char] != top_element:
+                return "no"
+        else:
+            stack.append(char)
+    return "yes" if not stack else "no"
+
+print(is_balanced("{[()]}")) 
+print(is_balanced("{())((}")))  
+print(is_balanced("{){}"))
+
+2)
+class twostacks:
+    def __init__(self):
+        self.stack1 = []
+        self.stack2 = []
+
+    def enqueue(self, x):
+        self.stack1.append(x)
+
+    def dequeue(self):
+        if not self.stack2:
+            while self.stack1:
+                self.stack2.append(self.stack1.pop())
+        return self.stack2.pop()
+
+q = twostacks()
+q.enqueue(1)
+q.enqueue(2)
+q.enqueue(3)
+print(q.dequeue())
+
+3)
+def game(x, a, b):
+    sum_a, sum_b = sum(a), sum(b)
+    i, j = len(a), len(b)
+
+
+    while i > 0 and sum_a > x:
+        i -= 1
+        sum_a -= a[i]
+    while j > 0 and (sum_a + sum_b) > x:
+        j -= 1
+        sum_b -= b[j]
+    count = i + j
+    while i > 0 and j > 0:
+        if a[i - 1] > b[j - 1]:
+            i -= 1
+            sum_a -= a[i]
+        else:
+            j -= 1
+            sum_b -= b[j]
+        count += 1
+
+    return count
+x = 10
+a = [6, 7, 2, 3, 1]
+b = [1, 2, 4, 9]
+print(game(x, a, b)) 
+
